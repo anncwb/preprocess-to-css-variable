@@ -1,0 +1,48 @@
+{
+  "name": "preprocess-to-css-variable",
+  "version": "1.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "bin",
+    "dist"
+  ],
+  "scripts": {
+    "dev": "rimraf dist && tsc -w",
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "less",
+    "ant design",
+    "antd",
+    "css variable",
+    "antdv",
+    "ant design vue"
+  ],
+  "author": "Vben",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/is-color": "^1.0.0",
+    "@types/lodash": "^4.14.178",
+    "@types/postcss-less": "^4.0.1",
+    "@types/tinycolor2": "^1.4.3",
+    "cac": "^6.7.12",
+    "tsup": "^5.10.3",
+    "v8-compile-cache": "^2.3.0"
+  },
+  "dependencies": {
+    "@ant-design/colors": "^6.0.0",
+    "chalk": "^5.0.0",
+    "fast-glob": "^3.2.7",
+    "is-color": "^1.0.2",
+    "less": "^4.1.2",
+    "lodash": "^4.17.21",
+    "postcss": "^8.4.4",
+    "postcss-less": "^5.0.0",
+    "tinycolor2": "^1.4.2"
+  }
+}
