@@ -1,0 +1,13 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "outDir": "./dist",
+    "declaration": true,
+    "noImplicitAny": false,
+    "lib": ["ESNext", "dom"],
+    "useDefineForClassFields": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "types"]
+}

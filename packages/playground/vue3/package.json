@@ -1,0 +1,21 @@
+{
+  "name": "vue3-playground-demo",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "predev": "esno ./scripts/predev"
+  },
+  "dependencies": {
+    "ant-design-vue": "3.0.0-alpha.15",
+    "pinia": "^2.0.6",
+    "vue": "^3.2.26"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.0.0",
+    "@vue/compiler-sfc": "^3.2.26",
+    "esno": "^0.12.1",
+    "less": "^4.1.2",
+    "vite": "^2.7.1"
+  }
+}

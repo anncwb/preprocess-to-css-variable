@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <h2>ant-design-vue 1.x</h2>
+    <h2>ant-design-vue 3.x</h2>
     <div class="content">
       <div class="comp">
         <a-button type="primary">Primary Button</a-button>
@@ -10,32 +10,28 @@
         <a-button type="link">Link Button</a-button>
         <a-input />
         <a-dropdown>
-          <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
-            Hover me <a-icon type="down" />
-          </a>
-          <a-menu slot="overlay">
-            <a-menu-item>
-              <a href="javascript:;">1st menu item</a>
-            </a-menu-item>
-            <a-menu-item>
-              <a href="javascript:;">2nd menu item</a>
-            </a-menu-item>
-            <a-menu-item>
-              <a href="javascript:;">3rd menu item</a>
-            </a-menu-item>
-          </a-menu>
+          <a class="ant-dropdown-link" @click.prevent> Hover me </a>
+          <template #overlay>
+            <a-menu>
+              <a-menu-item>
+                <a href="javascript:;">1st menu item</a>
+              </a-menu-item>
+              <a-menu-item>
+                <a href="javascript:;">2nd menu item</a>
+              </a-menu-item>
+              <a-menu-item>
+                <a href="javascript:;">3rd menu item</a>
+              </a-menu-item>
+            </a-menu>
+          </template>
         </a-dropdown>
 
-        <a-menu v-model="current" mode="horizontal">
-          <a-menu-item key="mail">
-            <a-icon type="mail" />Navigation One
-          </a-menu-item>
-          <a-menu-item key="app" disabled>
-            <a-icon type="appstore" />Navigation Two
-          </a-menu-item>
+        <a-menu mode="horizontal">
+          <a-menu-item key="mail"> Navigation One </a-menu-item>
+          <a-menu-item key="app" disabled> Navigation Two </a-menu-item>
           <a-sub-menu>
             <span slot="title" class="submenu-title-wrapper"
-              ><a-icon type="setting" />Navigation Three - Submenu</span
+              >Navigation Three - Submenu</span
             >
             <a-menu-item-group title="Item 1">
               <a-menu-item key="setting:1"> Option 1 </a-menu-item>
@@ -76,8 +72,8 @@
           <a-week-picker placeholder="Select week" />
         </div>
 
-        <a-button type="primary" @click="showModal"> Open Modal </a-button>
-        <a-modal v-model="visible" title="Basic Modal" @ok="handleOk">
+        <a-button type="primary" @click="showModal">Open Modal</a-button>
+        <a-modal v-model:visible="visible" title="Basic Modal" @ok="handleOk">
           <p>Some contents...</p>
           <p>Some contents...</p>
           <p>Some contents...</p>
@@ -99,33 +95,41 @@
 
 <script lang="ts">
 import { generate } from '../../../core/dist/client/index';
+import { defineComponent, ref } from 'vue';
+export default defineComponent({
+  setup() {
+    const visible = ref<boolean>(false);
+    const color = ref();
+    const input = ref();
 
-export default {
-  data() {
+    const showModal = () => {
+      visible.value = true;
+    };
+
+    const handleOk = (e: MouseEvent) => {
+      console.log(e);
+      visible.value = false;
+    };
+
+    const inputChange = (v) => {
+      color.value = v.target.value;
+      generate({ color: { primary: v.target.value } });
+    };
+
+    const selectColor = () => {
+      input.value.click();
+    };
     return {
-      color: '',
-      visible: false,
-      current: ['mail'],
+      selectColor,
+      visible,
+      showModal,
+      handleOk,
+      inputChange,
+      color,
+      input,
     };
   },
-  mounted() {},
-  methods: {
-    showModal() {
-      this.visible = true;
-    },
-    handleOk(e) {
-      console.log(e);
-      this.visible = false;
-    },
-    selectColor() {
-      this.$refs.input.click();
-    },
-    inputChange(v) {
-      this.color = v.target.value;
-      generate({ color: { primary: this.color } });
-    },
-  },
-};
+});
 </script>
 <style lang="less">
 .main {

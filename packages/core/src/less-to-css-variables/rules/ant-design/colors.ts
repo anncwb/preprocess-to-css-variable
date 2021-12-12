@@ -13,20 +13,30 @@ import { PRIMARY_KEY } from '../../constants/color';
 const COLOR_NAME_RE = /(\w+)-(\d)+$/;
 const COLOR_MAIN_RE = /(\w+)-6$/;
 
+const BASE_NAME_RE = /(\w+)-(base)$/;
+
 const defaultMainColorMap = new Map<string, string>();
+
+const baseColorMap = new Map<string, string>();
 const rule = defineRuleOptions({
   styleFilePath: 'style/color/colors.less',
   atRules: [
     (atRule) => {
+      if (BASE_NAME_RE.test(atRule.name)) {
+        baseColorMap.set(atRule.name, atRule.value!);
+      }
       // 修改color.less为css变量，并记录到数组内
       if (COLOR_MAIN_RE.test(atRule.name)) {
-        const value = atRule.value;
+        let value = atRule.value;
         const match = atRule.name.match(COLOR_MAIN_RE);
         const colorName = match?.[1];
-
+        if (value?.startsWith('@') && BASE_NAME_RE.test(value)) {
+          value = baseColorMap.get(value.replace(/^@/, ''));
+        }
         if (colorName && value) {
           const colors = generate(value);
           const mainColor = colors[5];
+
           defaultMainColorMap.set(colorName, mainColor);
           colors.forEach((color, index) => {
             antDesignColorMap.set(`${colorName}-${index + 1}`, color);

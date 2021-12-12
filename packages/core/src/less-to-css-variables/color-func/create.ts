@@ -51,12 +51,14 @@ export const createCoverFunc = (funcName: string) => {
         const replaceRE = str.includes('~`')
           ? new RegExp(`(${funcName})(\\(([.*\\s\\S][^;])+\\))`, 'g')
           : new RegExp(`(${funcName})(\\([.*\\s\\S]+\\))`);
+
         if (!replaceRE.test(str)) {
           return str.replace(
             new RegExp(`${funcName}\\(`, 'g'),
             coverName + '(',
           );
         }
+
         return str.replace(replaceRE, (_, $1, $2) => {
           let value = $2.replace(/\s/g, '');
 
