@@ -14,7 +14,7 @@ const generateCoverage = async ({
   options,
 }: GenerateCoverageOptions) => {
   const { styleFilePath, ...lastOptions } = ruleOption;
-  const { joinFullPath, force, debug } = options;
+  const { joinFullPath, force } = options;
 
   // 获取真实的备份 less 文件路径
   const realBackupStyleFilePath = getBackupFilePath(styleFilePath);
@@ -46,11 +46,6 @@ const generateCoverage = async ({
 
   const realStyleFilePathByNorm = joinFullPath(styleFilePath);
   const backupFilePathByNorm = joinFullPath(realBackupStyleFilePath);
-
-  // 调试模式，不执行文件替换
-  if (debug) {
-    return Promise.resolve();
-  }
 
   if (!(force && existsSync(backupFilePathByNorm))) {
     // 先备份

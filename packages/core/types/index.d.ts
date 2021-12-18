@@ -38,7 +38,6 @@ export type Options = {
   cwd: string;
   force: boolean;
   revert: boolean;
-  debug: boolean;
   verbose: boolean;
   joinFullPath: (...paths: string[]) => string;
 };

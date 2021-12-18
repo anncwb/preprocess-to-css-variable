@@ -94,7 +94,7 @@
 </template>
 
 <script lang="ts">
-import { generate } from '../../../core/dist/client/index';
+import { generate } from '../../../core/es/index';
 import { defineComponent, ref } from 'vue';
 export default defineComponent({
   setup() {

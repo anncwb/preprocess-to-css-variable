@@ -6,12 +6,12 @@ import { resolveLibraryList } from './utils/resolve';
 import chalk from 'chalk';
 import path from 'path';
 import { generateVariables } from './generate/variables';
+import { SeriesType, LibraryItem } from '../../types/index';
 
 export async function runLessToCssVariables({
   cwd = process.cwd(),
   revert = false,
   force = false,
-  debug = false,
   verbose = false,
   libraryList = [],
   series = 'ant-design',
@@ -21,6 +21,8 @@ export async function runLessToCssVariables({
   await Promise.all(
     libEntry.map(async (libraryDir, index) => {
       const libraryItem = libraryList[index];
+      createDefaultOptions(series, libraryItem);
+
       const rules = await buildRules(libraryItem, series, force);
 
       const opts: Options = {
@@ -28,7 +30,6 @@ export async function runLessToCssVariables({
         force,
         revert,
         verbose,
-        debug,
         libraryDir,
         libraryItem,
         joinFullPath: (...paths: string[]) => path.join(libraryDir, ...paths),
@@ -60,4 +61,15 @@ export async function runLessToCssVariables({
   );
   // 处理变量，写入缓存
   await generateVariables();
+}
+
+function createDefaultOptions(
+  seriesType: SeriesType,
+  libraryItem: LibraryItem,
+) {
+  if (seriesType === 'ant-design') {
+    if (!libraryItem.includes || libraryItem.includes.length === 0) {
+      libraryItem.includes = ['lib', 'es'];
+    }
+  }
 }

@@ -97,7 +97,7 @@ export async function generateVariables() {
   }
 
   fs.outputFileSync(
-    path.resolve(__dirname, '../../less-variables.js'),
+    path.resolve(__dirname, '../../../es/less-variables.js'),
     `export default {\n${variables}}\n export const unCoverVariable = {\n${unCoverVariables}}\nexport const convertedVariables = {\n${convertedVariables}}\n`,
     {
       encoding: 'utf8',

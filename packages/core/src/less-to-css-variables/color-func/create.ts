@@ -39,30 +39,33 @@ export const createCoverFunc = (funcName: string) => {
       (str) => !!str && str.indexOf(`${funcName}(`) !== -1,
       (str) => {
         if (funcName === 'color') {
-          return str
-            .replace(/\s/g, '')
-            .replace(/color\(~?`?([^`]+)+(?=\)$)*/, (_, $1) => $1)
-            .replace('`)', '');
+          return (
+            str
+              .replace(/\s/g, '')
+              .replace(/color\(~?`?([^`]+)+(?=\)$)*/, (_, $1) => $1)
+              // hack
+              .replace('`)', '')
+          );
         }
 
         const coverName = `cover${upperFirst(funcName)}`;
         const isFunctionVariables = str.includes(';');
 
         const replaceRE = str.includes('~`')
-          ? new RegExp(`(${funcName})(\\(([.*\\s\\S][^;])+\\))`, 'g')
+          ? new RegExp(`(${funcName})(\\(([.*\\s\\S][?=^;])+?=\\))`, 'g')
           : new RegExp(`(${funcName})(\\([.*\\s\\S]+\\))`);
 
         if (!replaceRE.test(str)) {
-          return str.replace(
-            new RegExp(`${funcName}\\(`, 'g'),
-            coverName + '(',
-          );
+          return str
+            .replace(new RegExp(`${funcName}\\(`, 'g'), coverName + '(')
+            .replace(/%/g, '');
         }
-
         return str.replace(replaceRE, (_, $1, $2) => {
-          let value = $2.replace(/\s/g, '');
+          let value: string = $2.replace(/\s/g, '');
 
-          value = value.substring(1, value.length - 1);
+          if (value.startsWith('(') && value.endsWith(')')) {
+            value = value.substring(1, value.length - 1);
+          }
 
           let varName = value;
           let varNumber = '';
@@ -88,6 +91,14 @@ export const createCoverFunc = (funcName: string) => {
             varNumber = varNumber.replace(/%$/, '');
           }
 
+          if (varNumber.includes('@')) {
+            const match = varNumber.match(/@([\w-]+)/);
+            const name = match?.[1];
+            if (name) {
+              varNumber = `'@{${name}}'`;
+            }
+          }
+
           const newFuncName = $1.replace(new RegExp(funcName, 'g'), coverName);
           handleCoverVariables(
             isFunctionVariables,
@@ -95,13 +106,19 @@ export const createCoverFunc = (funcName: string) => {
             varName,
             varNumber,
           );
-          const result = `${newFuncName}(${varName}${
+          let result = `${newFuncName}(${varName}${
             varNumber ? `,${varNumber}` : ''
           })`;
 
-          return result.includes('~`') || str.includes('~`')
-            ? result
-            : `~\`${result}\``;
+          result =
+            result.includes('~`') || str.includes('~`')
+              ? result
+              : `~\`${result}\``;
+
+          if (!matchBrackets(result)) {
+            result = result.replace(/;?$/, ');');
+          }
+          return result.replace(/%/, '');
         });
       },
     );
@@ -139,4 +156,20 @@ export function createColorFunction(
   const injectFunc = createInjectMixinTemplateFunction(funcName);
   const coverFunc = createCoverFunc(funcName);
   return [coverFunc, injectFunc];
+}
+
+function matchBrackets(str: string) {
+  var n = 0;
+  for (let s of str) {
+    if (s === '(') {
+      n++;
+    }
+    if (s === ')') {
+      if (n === 0) {
+        return false;
+      }
+      n--;
+    }
+  }
+  return n === 0;
 }

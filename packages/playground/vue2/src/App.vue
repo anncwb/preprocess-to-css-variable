@@ -98,7 +98,7 @@
 </template>
 
 <script lang="ts">
-import { generate } from '../../../core/dist/client/index';
+import { generate } from '../../../core/es/index';
 
 export default {
   data() {

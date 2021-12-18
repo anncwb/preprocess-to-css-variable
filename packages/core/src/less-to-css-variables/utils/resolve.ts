@@ -20,6 +20,7 @@ export function resolveLibrary({ absolute, absolutePath, name }: LibraryItem) {
     const libEntry = require.resolve(name);
     return buildEntry(libEntry, name);
   } catch (error) {
+    console.log(error);
     return null;
   }
 }

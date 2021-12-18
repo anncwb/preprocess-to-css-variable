@@ -1,12 +1,11 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "ESNext",
     "target": "ESNext",
-    "outDir": "./dist",
+    "outDir": "./es",
     "declaration": true,
     "noImplicitAny": false
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "types"],
-  "exclude": ["src/client/**/*.ts"]
+  "include": ["src/client/**/*.ts"]
 }

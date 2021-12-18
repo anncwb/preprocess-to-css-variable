@@ -1,0 +1,36 @@
+@import 'tailwindcss/base';
+
+@import 'tailwindcss/components';
+
+@import 'tailwindcss/utilities';
+
+.main {
+  padding: 20px;
+  position: relative;
+
+  h2 {
+    width: 100%;
+    text-align: center;
+  }
+  .content {
+    display: flex;
+  }
+  .comp {
+    width: 80%;
+    & > * {
+      margin: 10px 0;
+    }
+  }
+  .color-picker {
+    .input {
+      visibility: hidden;
+    }
+  }
+  .select-button {
+    background: #1890ff;
+    padding: 8px;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}

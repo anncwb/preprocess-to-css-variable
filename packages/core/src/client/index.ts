@@ -2,7 +2,7 @@ import cssVariables, {
   unCoverVariable,
   convertedVariables,
   // @ts-ignore skip
-} from '../less-variables';
+} from './less-variables';
 import { getVarNameAndFunc, __ANT_DESIGN_FUNCTION_TOKEN__ } from './util';
 import * as util from './util';
 import { generate as antDesignGenerate } from '@ant-design/colors';
