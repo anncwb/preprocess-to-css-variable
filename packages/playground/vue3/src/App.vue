@@ -94,8 +94,9 @@
 </template>
 
 <script lang="ts">
-import { generate } from '../../../core/es/index';
+import { generate } from 'preprocess-to-css-variable/es/index';
 import { defineComponent, ref } from 'vue';
+
 export default defineComponent({
   setup() {
     const visible = ref<boolean>(false);

@@ -29,7 +29,7 @@ export const darken = (color: string, amount?: number): string =>
   tinycolor(color).darken(amount).toString();
 
 // https://github.com/less/less.js/blob/b37922cfb2932f00d1e8b340f4799ff24a2af0f2/packages/less/src/less/functions/color.js#L318
-export const fade = (color: string, amount: number = 10): string => {
+export const fade = (color: string, amount = 10): string => {
   const hsl = tinycolor(color).toHsl();
   hsl.a = amount / 100;
   hsl.a = clamp(hsl.a);
@@ -38,11 +38,11 @@ export const fade = (color: string, amount: number = 10): string => {
 
 // https://github.com/less/less.js/blob/b37922cfb2932f00d1e8b340f4799ff24a2af0f2/packages/less/src/less/functions/color.js#L444
 
-export const tint = (color: string, amount: number = 10): string => {
+export const tint = (color: string, amount = 10): string => {
   return tinycolor.mix('#ffffff', color, amount).toString();
 };
 
-export const shade = (color: string, amount: number = 10): string => {
+export const shade = (color: string, amount = 10): string => {
   return tinycolor.mix('#000000', color, amount).toString();
 };
 
@@ -90,15 +90,15 @@ export function getVarNameAndFunc(key: string) {
 }
 
 export const colorPalette = (function () {
-  let hueStep = 2;
-  let saturationStep = 16;
-  let saturationStep2 = 5;
-  let brightnessStep1 = 5;
-  let brightnessStep2 = 15;
-  let lightColorCount = 5;
-  let darkColorCount = 4;
+  const hueStep = 2;
+  const saturationStep = 16;
+  const saturationStep2 = 5;
+  const brightnessStep1 = 5;
+  const brightnessStep2 = 15;
+  const lightColorCount = 5;
+  const darkColorCount = 4;
 
-  let getHue = function (hsv, i, isLight) {
+  const getHue = function (hsv, i, isLight) {
     let hue;
     if (hsv.h >= 60 && hsv.h <= 240) {
       hue = isLight ? hsv.h - hueStep * i : hsv.h + hueStep * i;
@@ -112,7 +112,7 @@ export const colorPalette = (function () {
     }
     return Math.round(hue);
   };
-  let getSaturation = function (hsv, i, isLight) {
+  const getSaturation = function (hsv, i, isLight) {
     let saturation;
     if (isLight) {
       saturation = Math.round(hsv.s * 100) - saturationStep * i;
@@ -132,7 +132,7 @@ export const colorPalette = (function () {
     }
     return Math.round(saturation);
   };
-  let getValue = function (hsv, i, isLight) {
+  const getValue = function (hsv, i, isLight) {
     if (isLight) {
       return Math.round(hsv.v * 100) + brightnessStep1 * i;
     }
@@ -140,9 +140,11 @@ export const colorPalette = (function () {
   };
 
   return (color, index) => {
-    var isLight = index <= 6;
-    var hsv = tinycolor(color).toHsv();
-    var i = isLight ? lightColorCount + 1 - index : index - lightColorCount - 1;
+    const isLight = index <= 6;
+    const hsv = tinycolor(color).toHsv();
+    const i = isLight
+      ? lightColorCount + 1 - index
+      : index - lightColorCount - 1;
     return tinycolor({
       h: getHue(hsv, i, isLight),
       s: getSaturation(hsv, i, isLight),

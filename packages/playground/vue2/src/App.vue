@@ -98,7 +98,7 @@
 </template>
 
 <script lang="ts">
-import { generate } from '../../../core/es/index';
+import { generate } from 'preprocess-to-css-variable/es/index';
 
 export default {
   data() {

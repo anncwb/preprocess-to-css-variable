@@ -4,12 +4,13 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "predev": "esno ./scripts/predev"
+    "predev": "pnpm esno ./scripts/predev"
   },
   "dependencies": {
     "ant-design-vue": "3.0.0-alpha.15",
     "pinia": "^2.0.6",
-    "vue": "^3.2.26"
+    "vue": "^3.2.26",
+    "preprocess-to-css-variable": "workspace:*"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.0.0",

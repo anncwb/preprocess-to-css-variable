@@ -37,7 +37,7 @@ export async function generate(options: GenerateOptions = {}) {
   });
   const dom =
     typeof selector === 'string'
-      ? (document?.querySelector(selector) as HTMLElement)
+      ? document && (document.querySelector(selector) as HTMLElement)
       : selector;
 
   if (dom) {
@@ -128,3 +128,5 @@ function mergeConvertedVariables(variables: string[] = []) {
   });
   Object.assign(unCoverVariable, obj);
 }
+
+export default { generate };

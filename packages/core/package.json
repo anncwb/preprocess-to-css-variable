@@ -3,20 +3,43 @@
   "version": "1.0.4",
   "description": "",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.js"
+    },
+    "./es": {
+      "require": "./lib/index.js",
+      "import": "./es/index.js"
+    },
+    "./es/": {
+      "require": "./lib/index.js",
+      "import": "./es/index.js"
+    },
+    "./es/index": {
+      "require": "./lib/index.js",
+      "import": "./es/index.js"
+    },
+    "./es/*": {
+      "require": "./lib/*",
+      "import": "./es/*"
+    }
+  },
   "files": [
     "bin",
     "dist",
     "es",
+    "lib",
     "types"
   ],
   "bin": {
     "pcv": "bin/pcv.js"
   },
   "scripts": {
-    "dev": "rimraf dist && tsc -w & tsc -p tsconfig.client.json -w",
-    "build": "rimraf dist && tsc && tsc -p tsconfig.client.json",
+    "dev": "pnpm run clean && pnpm tsc -w & pnpm tsc -p tsconfig.client.json -w",
+    "build": "pnpm run clean && pnpm tsc && pnpm tsc -p tsconfig.client.json &&  pnpm tsc -p tsconfig.client.lib.json",
+    "clean": "pnpm rimraf dist && pnpm rimraf es &&  pnpm rimraf lib",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
